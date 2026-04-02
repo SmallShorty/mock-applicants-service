@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "code": "01.03.02",
+    "name": "Прикладная математика и информатика",
+    "faculty": "Факультет вычислительной математики",
+    "requiredSubjects": ["math", "russian", "informatics"],
+    "budgetPlaces": 50,
+    "paidPlaces": 30,
+    "studyForms": ["full-time", "part-time"],
+    "admissionTypes": ["budget", "paid"]
+  },
+  {
+    "id": 2,
+    "code": "09.03.01",
+    "name": "Информатика и вычислительная техника",
+    "faculty": "Факультет информатики",
+    "requiredSubjects": ["math", "russian", "informatics", "physics"],
+    "budgetPlaces": 75,
+    "paidPlaces": 40,
+    "studyForms": ["full-time"],
+    "admissionTypes": ["budget", "paid", "target"]
+  },
+  {
+    "id": 3,
+    "code": "09.03.04",
+    "name": "Программная инженерия",
+    "faculty": "Факультет программной инженерии",
+    "requiredSubjects": ["math", "russian", "informatics"],
+    "budgetPlaces": 60,
+    "paidPlaces": 50,
+    "studyForms": ["full-time", "evening"],
+    "admissionTypes": ["budget", "paid"]
+  },
+  {
+    "id": 4,
+    "code": "38.03.01",
+    "name": "Экономика",
+    "faculty": "Экономический факультет",
+    "requiredSubjects": ["math", "russian", "social"],
+    "budgetPlaces": 40,
+    "paidPlaces": 60,
+    "studyForms": ["full-time", "part-time", "evening"],
+    "admissionTypes": ["budget", "paid", "target"]
+  },
+  {
+    "id": 5,
+    "code": "40.03.01",
+    "name": "Юриспруденция",
+    "faculty": "Юридический факультет",
+    "requiredSubjects": ["russian", "social", "history"],
+    "budgetPlaces": 30,
+    "paidPlaces": 70,
+    "studyForms": ["full-time", "part-time", "evening"],
+    "admissionTypes": ["budget", "paid"]
+  },
+  {
+    "id": 6,
+    "code": "45.03.02",
+    "name": "Лингвистика",
+    "faculty": "Факультет лингвистики",
+    "requiredSubjects": ["russian", "foreign", "history"],
+    "budgetPlaces": 25,
+    "paidPlaces": 35,
+    "studyForms": ["full-time", "evening"],
+    "admissionTypes": ["budget", "paid", "target"]
+  }
+]
