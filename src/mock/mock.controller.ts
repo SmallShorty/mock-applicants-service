@@ -21,11 +21,12 @@ export class MockController {
 
   // Generate messages for applicants
   @Post('messages')
+  @Post('messages')
   async generateMessages(
-    @Body() body: { applicantIds: string[]; count: number },
+    @Body() body: { snilsList: string[]; count: number },
   ): Promise<IApplicantMessage[]> {
-    const { applicantIds, count } = body;
-    return this.mockService.generateMessages(applicantIds, count);
+    const { snilsList, count } = body;
+    return this.mockService.generateMessages(snilsList, count);
   }
 
   // Health check

@@ -42,11 +42,11 @@ export class MockService {
 
   // Generate messages for applicants
   async generateMessages(
-    applicantIds: string[],
+    snilsList: string[],
     count: number,
   ): Promise<IApplicantMessage[]> {
     const messages = await this.messageGenerator.generateBatch(
-      applicantIds,
+      snilsList,
       count,
     );
     await this.saveMessagesToFile(messages);

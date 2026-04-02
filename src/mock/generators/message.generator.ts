@@ -13,7 +13,6 @@ interface IQuestion {
 export class MessageGenerator {
   private allQuestions: IQuestion[] = [];
 
-  // Load all question files from templates folder
   async loadQuestions(): Promise<void> {
     const questionsDir = path.join(
       process.cwd(),
@@ -38,33 +37,31 @@ export class MessageGenerator {
     }
   }
 
-  // Generate a single message for an applicant
-  async generate(applicantId: string): Promise<IApplicantMessage> {
+  // Generate message using SNILS instead of applicantId
+  async generate(snils: string): Promise<IApplicantMessage> {
     if (this.allQuestions.length === 0) {
       await this.loadQuestions();
     }
 
-    // Check if questions exist
     if (this.allQuestions.length === 0) {
       return {
-        applicantId,
+        snils,
         content: 'У меня вопрос по поступлению',
       };
     }
 
-    // Get random question
     const randomIndex = Math.floor(Math.random() * this.allQuestions.length);
     const randomQuestion = this.allQuestions[randomIndex];
 
     return {
-      applicantId,
+      snils,
       content: randomQuestion.text,
     };
   }
 
-  // Generate multiple messages in batch
+  // Generate batch with SNILS array
   async generateBatch(
-    applicantIds: string[],
+    snilsList: string[],
     messagesCount: number,
   ): Promise<IApplicantMessage[]> {
     if (this.allQuestions.length === 0) {
@@ -74,8 +71,8 @@ export class MessageGenerator {
     const messages: IApplicantMessage[] = [];
 
     for (let i = 0; i < messagesCount; i++) {
-      const applicantId = faker.helpers.arrayElement(applicantIds);
-      const message = await this.generate(applicantId);
+      const snils = faker.helpers.arrayElement(snilsList);
+      const message = await this.generate(snils);
       messages.push(message);
     }
 

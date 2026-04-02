@@ -19,7 +19,7 @@ export interface IApplicant {
 }
 
 export interface IApplicantMessage {
-  applicantId: string;
+  snils: string;
   content: string;
 }
 
