@@ -37,7 +37,7 @@ export class MessageGenerator {
     }
   }
 
-  // Generate message using SNILS instead of applicantId
+  // Generate message with SNILS
   async generate(snils: string): Promise<IApplicantMessage> {
     if (this.allQuestions.length === 0) {
       await this.loadQuestions();
@@ -55,6 +55,26 @@ export class MessageGenerator {
 
     return {
       snils,
+      content: randomQuestion.text,
+    };
+  }
+
+  // Generate random message without SNILS
+  async generateRandom(): Promise<IApplicantMessage> {
+    if (this.allQuestions.length === 0) {
+      await this.loadQuestions();
+    }
+
+    if (this.allQuestions.length === 0) {
+      return {
+        content: 'У меня вопрос по поступлению',
+      };
+    }
+
+    const randomIndex = Math.floor(Math.random() * this.allQuestions.length);
+    const randomQuestion = this.allQuestions[randomIndex];
+
+    return {
       content: randomQuestion.text,
     };
   }

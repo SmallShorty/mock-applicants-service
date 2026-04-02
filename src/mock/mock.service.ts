@@ -12,35 +12,14 @@ export class MockService {
     private messageGenerator: MessageGenerator,
   ) {}
 
-  // Generate single applicant and save to file
-  async generateApplicant(): Promise<IApplicant> {
-    const applicant = await this.applicantGenerator.generate();
+  // Generate applicant by SNILS (main method)
+  async generateApplicantBySnils(snils: string): Promise<IApplicant> {
+    const applicant = await this.applicantGenerator.generateBySnils(snils);
     await this.saveApplicantToFile(applicant);
     return applicant;
   }
 
-  // Generate multiple applicants
-  async generateBatch(count: number): Promise<IApplicant[]> {
-    const applicants: IApplicant[] = [];
-
-    for (let i = 0; i < count; i++) {
-      const applicant = await this.applicantGenerator.generate();
-      await this.saveApplicantToFile(applicant);
-      applicants.push(applicant);
-
-      // Log progress every 10 applicants
-      if ((i + 1) % 10 === 0) {
-        console.log(`Generated ${i + 1}/${count} applicants`);
-      }
-    }
-
-    // Save batch summary
-    await this.saveBatchToFile(applicants, count);
-
-    return applicants;
-  }
-
-  // Generate messages for applicants
+  // Generate messages by SNILS
   async generateMessages(
     snilsList: string[],
     count: number,
@@ -51,6 +30,11 @@ export class MockService {
     );
     await this.saveMessagesToFile(messages);
     return messages;
+  }
+
+  // Generate random message without SNILS
+  async generateRandomMessage(): Promise<IApplicantMessage> {
+    return this.messageGenerator.generateRandom();
   }
 
   // Save single applicant to JSON file
@@ -66,33 +50,10 @@ export class MockService {
 
     await fs.mkdir(dirPath, { recursive: true });
 
-    const filePath = path.join(dirPath, `applicant_${applicant.id}.json`);
+    // Use SNILS in filename for easy lookup
+    const snilsSafe = applicant.snils.replace(/[\s-]/g, '_');
+    const filePath = path.join(dirPath, `applicant_${snilsSafe}.json`);
     await fs.writeFile(filePath, JSON.stringify(applicant, null, 2));
-  }
-
-  // Save batch summary
-  private async saveBatchToFile(
-    applicants: IApplicant[],
-    count: number,
-  ): Promise<void> {
-    const batchDir = path.join(
-      process.cwd(),
-      'mock-storage',
-      'generated',
-      'batches',
-    );
-    await fs.mkdir(batchDir, { recursive: true });
-
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const filePath = path.join(batchDir, `batch_${timestamp}.json`);
-
-    const batchSummary = {
-      generatedAt: new Date().toISOString(),
-      count: applicants.length,
-      applicants: applicants.map((a) => ({ id: a.id, snils: a.snils })),
-    };
-
-    await fs.writeFile(filePath, JSON.stringify(batchSummary, null, 2));
   }
 
   // Save messages to file

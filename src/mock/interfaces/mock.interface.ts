@@ -19,7 +19,7 @@ export interface IApplicant {
 }
 
 export interface IApplicantMessage {
-  snils: string;
+  snils?: string; // Make snils optional for random messages
   content: string;
 }
 

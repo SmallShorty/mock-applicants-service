@@ -14,8 +14,11 @@ export class ApplicantGenerator {
     private examScoresGenerator: ExamScoresGenerator,
   ) {}
 
-  // Generate a single applicant
-  async generate(forceQuotas?: Partial<IQuotas>): Promise<IApplicant> {
+  // Generate applicant by provided SNILS (no SNILS generation inside)
+  async generateBySnils(
+    snils: string,
+    forceQuotas?: Partial<IQuotas>,
+  ): Promise<IApplicant> {
     // Generate quotas (or use forced ones)
     const quotas = forceQuotas
       ? { ...this.quotaStrategy.generate(), ...forceQuotas }
@@ -33,9 +36,10 @@ export class ApplicantGenerator {
     // Generate original document status
     const hasOriginalDocument = Math.random() < config.originalDocumentChance;
 
-    // Build applicant object
+    // Build applicant object with provided SNILS
     return {
       id: faker.string.uuid(),
+      snils: snils, // Use provided SNILS, do not generate
       personalInfo: {
         firstName: faker.person.firstName(),
         lastName: faker.person.lastName(),
@@ -43,7 +47,6 @@ export class ApplicantGenerator {
         email: faker.internet.email(),
         phone: faker.phone.number(),
       },
-      snils: this.generateSnils(),
       quotas,
       documents: {
         originalDocumentReceived: hasOriginalDocument,
@@ -55,11 +58,5 @@ export class ApplicantGenerator {
       selectedPrograms,
       createdAt: new Date().toISOString(),
     };
-  }
-
-  // Generate SNILS in format XXX-XXX-XXX XX
-  private generateSnils(): string {
-    const numbers = faker.string.numeric(11);
-    return `${numbers.slice(0, 3)}-${numbers.slice(3, 6)}-${numbers.slice(6, 9)} ${numbers.slice(9, 11)}`;
   }
 }

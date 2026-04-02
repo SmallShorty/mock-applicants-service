@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { MockService } from './mock.service';
 import { IApplicant, IApplicantMessage } from './interfaces/mock.interface';
 
@@ -6,27 +6,27 @@ import { IApplicant, IApplicantMessage } from './interfaces/mock.interface';
 export class MockController {
   constructor(private readonly mockService: MockService) {}
 
-  // Generate single applicant
+  // Generate applicant by SNILS
   @Post('applicant')
-  async generateApplicant(): Promise<IApplicant> {
-    return this.mockService.generateApplicant();
+  async generateApplicant(
+    @Body() body: { snils: string },
+  ): Promise<IApplicant> {
+    return this.mockService.generateApplicantBySnils(body.snils);
   }
 
-  // Generate batch of applicants
-  @Post('applicants/bulk')
-  async generateBatch(@Body() body: { count: number }): Promise<IApplicant[]> {
-    const count = body.count || 10;
-    return this.mockService.generateBatch(count);
-  }
-
-  // Generate messages for applicants
-  @Post('messages')
+  // Generate messages for applicants by SNILS list
   @Post('messages')
   async generateMessages(
     @Body() body: { snilsList: string[]; count: number },
   ): Promise<IApplicantMessage[]> {
     const { snilsList, count } = body;
     return this.mockService.generateMessages(snilsList, count);
+  }
+
+  // Generate random message without SNILS
+  @Get('message/random')
+  async generateRandomMessage(): Promise<IApplicantMessage> {
+    return this.mockService.generateRandomMessage();
   }
 
   // Health check
