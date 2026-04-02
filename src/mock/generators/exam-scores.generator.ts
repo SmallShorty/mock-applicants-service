@@ -56,10 +56,18 @@ export class ExamScoresGenerator {
       hasBvi,
     );
 
-    // Convert to array format
+    // Convert to array format with type
     const examScores: IExamScore[] = [];
     scoresMap.forEach((score, subjectName) => {
-      examScores.push({ subjectName, score });
+      // Randomly assign exam type
+      const types: IExamScore['type'][] = ['ege', 'internal'];
+      const randomType = types[Math.floor(Math.random() * types.length)];
+
+      examScores.push({
+        subjectName,
+        score,
+        type: randomType,
+      });
     });
 
     return examScores;

@@ -34,6 +34,7 @@ export interface IQuotas {
 export interface IExamScore {
   subjectName: string;
   score: number;
+  type: 'ege' | 'internal';
 }
 
 export interface ISelectedProgram {
